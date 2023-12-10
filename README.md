@@ -1,4 +1,4 @@
-# LinkedIn Experience Crawler
+# Linkedin Experience Crawler
 
 ## Overview
 This Python-based tool crawls LinkedIn to gather experience details of various profiles using Selenium WebDriver. It's designed for individuals and organizations needing to automate the collection of professional experience data from LinkedIn profiles.
