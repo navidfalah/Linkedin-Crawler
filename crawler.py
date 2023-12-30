@@ -9,9 +9,13 @@ import csv
 from time import sleep
 
 
+path_enterance = "data/departments_8/112_data.csv"
+path_output = "data_outputs/8_digits/112_data_output.csv"
 name_researcher = "Behnam Yousefi"
 
-driver = webdriver.Chrome()
+op = webdriver.ChromeOptions()
+op.add_argument('headless')
+driver = webdriver.Chrome(options=op)
 wait = WebDriverWait(driver, 10)
 
 def loginner():
@@ -57,7 +61,7 @@ def searcher(name_researcher):
 data_dict = {}
 
 
-with open('sample_1000 - Sheet1.csv', 'r', encoding='utf-8') as file:
+with open(path_enterance, 'r', encoding='utf-8') as file:
     reader = csv.reader(file)
     data = list(reader)
 
@@ -84,7 +88,7 @@ for id_name, name_value in data_dict.items():
         print("error")
 
 
-with open('sample_1000 - Sheet1_updated.csv', 'w', newline='', encoding='utf-8') as file:
+with open(path_output, 'w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
     writer.writerows(data)
 
