@@ -2,3 +2,5 @@
 constants.py
 *.csv
 data
+*.zip
+*.xlsx

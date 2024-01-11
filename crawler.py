@@ -10,12 +10,10 @@ from time import sleep
 
 
 path_enterance = "data/departments_8/112_data.csv"
-path_output = "data_outputs/8_digits/112_data_output.csv"
-name_researcher = "Behnam Yousefi"
+path_output = "data_output.csv"
 
-op = webdriver.ChromeOptions()
-op.add_argument('headless')
-driver = webdriver.Chrome(options=op)
+webdriver.ChromeOptions()
+driver = webdriver.Chrome()
 wait = WebDriverWait(driver, 10)
 
 def loginner():
@@ -52,14 +50,13 @@ def searcher(name_researcher):
             if link:
                 data = {
                     'link': link,
-                    'image_src': img_tag.get('src', ''),
+                    # 'image_src': img_tag.get('src', ''),
                     'image_alt': image_alt,
                 }
                 extracted_data.append(data)
     return extracted_data
 
 data_dict = {}
-
 
 with open(path_enterance, 'r', encoding='utf-8') as file:
     reader = csv.reader(file)
@@ -75,21 +72,17 @@ for row in data:
 
 loginner()
 
-
 for id_name, name_value in data_dict.items():
-  
     try:
         extracted_data = searcher(name_value)
-        for row in data:
-            if row[0] == id_name:
-                row.append(extracted_data)
-                break
-    except:
-        print("error")
-
-
-with open(path_output, 'w', newline='', encoding='utf-8') as file:
-    writer = csv.writer(file)
-    writer.writerows(data)
+        with open(path_output, 'a', newline='', encoding='utf-8') as file:  # Open in append mode
+            writer = csv.writer(file)
+            for row in data:
+                if row[0] == id_name:
+                    row.append(extracted_data)
+                    writer.writerow(row)  # Write the updated row
+                    break
+    except Exception as e:
+        print("Error:", e)
 
 driver.quit()
