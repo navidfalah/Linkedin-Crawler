@@ -6,8 +6,8 @@ from constants import email, password
 import re
 from bs4 import BeautifulSoup
 import csv
+import json
 from time import sleep
-
 
 path_enterance = "data/departments_8/112_data.csv"
 path_output = "data_output.csv"
@@ -29,7 +29,7 @@ def loginner():
     sign_in_button.click()
 
 def searcher(name_researcher):
-    driver.get(f"https://www.linkedin.com/search/results/people/?keywords={name_researcher}&origin=GLOBAL_SEARCH_HEADER&sid=GGF")
+    driver.get(f"https://www.linkedin.com/search/results/people/?keywords={name_researcher}&origin=FACETED_SEARCH&schoolFilter=[%2215095155%22]&sid=2oa")
     first_li = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "li.reusable-search__result-container")))
     first_link = first_li.find_element(By.TAG_NAME, "a")
     first_link.click()
@@ -38,7 +38,11 @@ def searcher(name_researcher):
 
     page_source = driver.page_source
     soup = BeautifulSoup(page_source, 'html.parser')
-    extracted_data = []
+    
+    position_tag = soup.find('div', class_='text-body-medium break-words')
+    current_position = position_tag.text.strip() if position_tag else ''
+    
+    experiences = []
     li_tags = soup.find_all('li', class_='artdeco-list__item')
     for li in li_tags:
         a_tag = li.find('a', {'data-field': 'experience_company_logo'})
@@ -50,11 +54,11 @@ def searcher(name_researcher):
             if link:
                 data = {
                     'link': link,
-                    # 'image_src': img_tag.get('src', ''),
-                    'image_alt': image_alt,
+                    'experience': image_alt,  # Changed from 'image_alt' to 'experience'
                 }
-                extracted_data.append(data)
-    return extracted_data
+                experiences.append(data)
+
+    return current_position, experiences  # Ensure proper JSON formatting
 
 data_dict = {}
 
@@ -74,13 +78,13 @@ loginner()
 
 for id_name, name_value in data_dict.items():
     try:
-        extracted_data = searcher(name_value)
-        with open(path_output, 'a', newline='', encoding='utf-8') as file:  # Open in append mode
+        position, experiences_json = searcher(name_value)
+        with open(path_output, 'a', newline='', encoding='utf-8') as file:
             writer = csv.writer(file)
             for row in data:
                 if row[0] == id_name:
-                    row.append(extracted_data)
-                    writer.writerow(row)  # Write the updated row
+                    updated_row = row + [position, experiences_json]
+                    writer.writerow(updated_row)
                     break
     except Exception as e:
         print("Error:", e)
