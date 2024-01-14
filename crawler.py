@@ -6,14 +6,20 @@ from constants import email, password
 import re
 from bs4 import BeautifulSoup
 import csv
-import json
 from time import sleep
+from selenium.webdriver.chrome.service import Service
 
-path_enterance = "data/departments_8/112_data.csv"
+
+path_enterance = "main_data.csv"
 path_output = "data_output.csv"
 
 webdriver.ChromeOptions()
-driver = webdriver.Chrome()
+# this chrome path depends on system where it has been installed find out using this dpkg -L chromium-chromedriver
+chrome_path = "/usr/lib/chromium-browser/chromedriver"
+service = Service(chrome_path)
+options = webdriver.ChromeOptions()
+driver = webdriver.Chrome(service=service, options=options)
+
 wait = WebDriverWait(driver, 10)
 
 def loginner():
