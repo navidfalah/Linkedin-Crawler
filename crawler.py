@@ -9,16 +9,16 @@ import csv
 from time import sleep
 from selenium.webdriver.chrome.service import Service
 
-
+# Paths for input and output files
 path_enterance = "main_data.csv"
 path_output = "data_output.csv"
+path_error_output = "data_error_output.csv"  # New CSV file for records not found
 
-webdriver.ChromeOptions()
-# this chrome path depends on system where it has been installed find out using this dpkg -L chromium-chromedriver
-chrome_path = "/usr/lib/chromium-browser/chromedriver"
-service = Service(chrome_path)
-options = webdriver.ChromeOptions()
-driver = webdriver.Chrome(service=service, options=options)
+# webdriver.ChromeOptions()
+# chrome_path = "/usr/lib/chromium-browser/chromedriver"
+# service = Service(chrome_path)
+# options = webdriver.ChromeOptions()
+driver = webdriver.Chrome()
 
 wait = WebDriverWait(driver, 10)
 
