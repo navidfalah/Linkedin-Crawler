@@ -7,17 +7,13 @@ import re
 from bs4 import BeautifulSoup
 import csv
 from time import sleep
-from selenium.webdriver.chrome.service import Service
 
-# Paths for input and output files
+
 path_enterance = "main_data.csv"
 path_output = "data_output.csv"
-path_error_output = "data_error_output.csv"  # New CSV file for records not found
+path_error_output = "data_error_output.csv"
 
-# webdriver.ChromeOptions()
-# chrome_path = "/usr/lib/chromium-browser/chromedriver"
-# service = Service(chrome_path)
-# options = webdriver.ChromeOptions()
+
 driver = webdriver.Chrome()
 
 wait = WebDriverWait(driver, 10)
@@ -60,11 +56,11 @@ def searcher(name_researcher):
             if link:
                 data = {
                     'link': link,
-                    'experience': image_alt,  # Changed from 'image_alt' to 'experience'
+                    'experience': image_alt,
                 }
                 experiences.append(data)
 
-    return current_position, experiences  # Ensure proper JSON formatting
+    return current_position, experiences
 
 data_dict = {}
 
