@@ -1,45 +1,60 @@
-# Linkedin Experience Crawler
+# LinkedIn Profile Crawler
 
-## Overview
-This Python-based tool crawls LinkedIn to gather experience details of various profiles using Selenium WebDriver. It's designed for individuals and organizations needing to automate the collection of professional experience data from LinkedIn profiles.
+This project contains a set of Python scripts that automate the process of searching for LinkedIn profiles based on the names provided in an input CSV file, extracting specific information from the profiles, and storing the results in an output CSV file.
 
-## Prerequisites
-- Python 3.x
-- Selenium WebDriver
-- A LinkedIn account
+### Project Structure 📂
 
-## Setup
-1. **Clone the Repository**: Clone this repository to your local machine or download the source code.
+The project consists of the following files and directories:
 
-2. **Install Dependencies**: Run `pip install -r requirements.txt` to install the required Python libraries, including Selenium.
+```
+linkedin-profile-crawler/
+├── constants.py                 # Contains credentials and constants
+├── crawler.py                   # Main script for crawling LinkedIn profiles
+├── input_data.csv               # CSV file containing names to search for
+├── notfound_data.csv            # CSV file for profiles that couldn't be found
+├── output_data.csv              # CSV file containing the crawled data
+├── README.md                    # This README file
+├── requirements.txt             # List of Python package dependencies
+└── utils/
+    ├── department_separator.py  # Utility script for department separation
+    ├── extracted_content.json   # JSON file with extracted content
+    ├── __init__.py              # Makes utils a Python package
+    ├── students_separator.py    # Utility script for student separation
+    └── teacher_separator.py     # Utility script for teacher separation
+```
 
-3. **Set Up Credentials**:
-   - Create a file named `constants.py` in the project directory.
-   - In `constants.py`, enter your LinkedIn credentials:
-     ```python
-     email = "your_email_here"
-     password = "your_password_here"
-     ```
+### Setup Instructions 🛠️
 
-## Usage
-1. **Configure Settings**: 
-   - Open `crawler.py`.
-   - Modify the `sleep_time` variable to adjust the delay between requests (to prevent being rate-limited or blocked by LinkedIn).
-   - Set `headless_mode` to `True` or `False` depending on whether you want the Selenium WebDriver to run the browser in the background.
+1. Create a LinkedIn account if you do not already have one.
+2. Clone this repository to your local machine.
+3. Create a `constants.py` file with your LinkedIn credentials and other constants.
+   
+   Example `constants.py`:
+   ```python
+   email = 'your_email@example.com'
+   password = 'your_password'
+   ```
+4. Install the required Python packages using the `requirements.txt` file:
+   ```
+   pip install -r requirements.txt
+   ```
+   The most important packages are `selenium` and `beautifulsoup4`.
 
-2. **Run the Crawler**: Execute `python crawler.py` in your terminal. Ensure you're in the project's root directory.
+### Running the Crawler 🚀
 
-3. **View Results**: 
-   - The crawled data will be saved in a JSON file within the project directory.
-   - Check the output JSON file for the crawled experience data.
+1. Ensure you have a `input_data.csv` file in the root directory with the names you wish to search on LinkedIn.
+2. Run the `crawler.py` script:
+   ```
+   python crawler.py
+   ```
+3. After the script finishes, check the `output_data.csv` for successfully found profiles and `notfound_data.csv` for profiles that could not be found on LinkedIn.
 
-## Important Notes
-- This tool is for educational purposes. Be aware of LinkedIn's terms of service regarding automated data collection.
-- Using this script might lead to your LinkedIn account being temporarily or permanently blocked due to suspicious activity.
-- Always use a delay between requests to be respectful to LinkedIn's servers and to minimize the risk of your account being flagged.
+### Emojis Key 🗝️
 
-## Contributions
-Contributions, issues, and feature requests are welcome. Feel free to check [issues page](your-repository-link) if you want to contribute.
+- 📂: Indicates a directory or file
+- 🛠️: Represents the setup process
+- 🚀: Denotes the action of running the script
 
-## License
-This project is [MIT licensed](your-license-link).
+### Support 👋
+
+If you encounter any problems or have questions, feel free to contact me by email at navid.falah7@gmail.com or reach out on Telegram at `navid_falah`.
