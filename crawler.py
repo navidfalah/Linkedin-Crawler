@@ -9,13 +9,12 @@ import csv
 from time import sleep
 
 
-path_enterance = "main_data.csv"
-path_output = "data_output.csv"
-path_error_output = "data_error_output.csv"
+path_enterance = "input_data.csv"
+path_output = "output_data.csv"
+path_notfound_output = "notfound_data.csv"
 
 
 driver = webdriver.Chrome()
-
 wait = WebDriverWait(driver, 10)
 
 def loginner():
@@ -78,17 +77,29 @@ for row in data:
 
 loginner()
 
-for id_name, name_value in data_dict.items():
+data = []
+handled_ids = set()
+
+with open(path_enterance, 'r', encoding='utf-8') as file:
+    reader = csv.reader(file)
+    for row in reader:
+        if row:
+            data.append(row)
+
+for row in data:
+    id_name = row[0]
+    name_value = f"{row[3]} {row[4]}"
     try:
         position, experiences_json = searcher(name_value)
         with open(path_output, 'a', newline='', encoding='utf-8') as file:
             writer = csv.writer(file)
-            for row in data:
-                if row[0] == id_name:
-                    updated_row = row + [position, experiences_json]
-                    writer.writerow(updated_row)
-                    break
+            updated_row = row + [position, str(experiences_json)]
+            writer.writerow(updated_row)
     except Exception as e:
-        print("Error:", e)
+        if id_name not in handled_ids:
+            with open(path_notfound_output, 'a', newline='', encoding='utf-8') as file:
+                writer = csv.writer(file)
+                writer.writerow(row)
+            handled_ids.add(id_name)
 
 driver.quit()
