@@ -69,8 +69,9 @@ with open(path_enterance, 'r', encoding='utf-8') as file:
 
 for row in data:
     if row:
-        latin_name = row[3]
-        family_name = row[4]
+        # change based on your data 
+        latin_name = row[2]
+        family_name = row[3]
         key = row[0]
         value = f"{latin_name} {family_name}"
         data_dict[key] = value
@@ -78,7 +79,6 @@ for row in data:
 loginner()
 
 data = []
-handled_ids = set()
 
 with open(path_enterance, 'r', encoding='utf-8') as file:
     reader = csv.reader(file)
@@ -88,7 +88,8 @@ with open(path_enterance, 'r', encoding='utf-8') as file:
 
 for row in data:
     id_name = row[0]
-    name_value = f"{row[3]} {row[4]}"
+    # change based on yout data
+    name_value = f"{row[2]} {row[3]}"
     try:
         position, experiences_json = searcher(name_value)
         with open(path_output, 'a', newline='', encoding='utf-8') as file:
@@ -96,10 +97,8 @@ for row in data:
             updated_row = row + [position, str(experiences_json)]
             writer.writerow(updated_row)
     except Exception as e:
-        if id_name not in handled_ids:
-            with open(path_notfound_output, 'a', newline='', encoding='utf-8') as file:
-                writer = csv.writer(file)
-                writer.writerow(row)
-            handled_ids.add(id_name)
+        with open(path_notfound_output, 'a', newline='', encoding='utf-8') as file:
+            writer = csv.writer(file)
+            writer.writerow(row)
 
 driver.quit()
