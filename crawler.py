@@ -30,7 +30,7 @@ def loginner():
     sign_in_button.click()
 
 def searcher(name_researcher):
-    driver.get(f"https://www.linkedin.com/search/results/people/?keywords={name_researcher}&origin=FACETED_SEARCH&schoolFilter=[%2215095155%22]&sid=2oa")
+    driver.get(f"https://www.linkedin.com/search/results/people/?keywords={name_researcher}&origin=FACETED_SEARCH")
     first_li = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "li.reusable-search__result-container")))
     first_link = first_li.find_element(By.TAG_NAME, "a")
     first_link.click()
